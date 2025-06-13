@@ -35,7 +35,7 @@ export default function FightSection() {
               </span>
               <span className="text-2xl font-normal">
                 {fightsNotC &&
-                  fightsNotC[0]?.fighters.leftCornerFighterId.weightCategory}
+                  fightsNotC[0]?.fighters?.leftCornerFighterId?.weightCategory}
               </span>
               <span className="text-xl font-normal">
                 {fightsNotC && formatDate(fightsNotC[0]?.date)}
@@ -53,7 +53,7 @@ export default function FightSection() {
               </span>
               <span className="text-2xl font-normal">
                 {fightsUpC &&
-                  fightsUpC[0]?.fighters.leftCornerFighterId.weightCategory}
+                  fightsUpC[0]?.fighters?.leftCornerFighterId?.weightCategory}
               </span>
               <span className="text-xl font-normal">
                 {fightsUpC && formatDate(fightsUpC[0]?.date)}

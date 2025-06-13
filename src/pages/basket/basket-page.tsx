@@ -45,6 +45,7 @@ export default function BasketPage() {
       queryClient.invalidateQueries({ queryKey: ["basket"] });
     },
   });
+
   return (
     <div className="bg-[#F6F6F6] w-full">
       <div className="container mx-auto">
@@ -123,8 +124,9 @@ export default function BasketPage() {
                   <button
                     onClick={() =>
                       navigate(
-                        `/offer/${basket.reduce(
-                          (sum, product) => sum + product?.productId?.price,
+                        `/offer/${filterProduct.reduce(
+                          (sum, filterProduct) =>
+                            sum + filterProduct?.productId?.price,
                           0,
                         )}`,
                       )
@@ -143,17 +145,18 @@ export default function BasketPage() {
                   <div className="w-full flex justify-between items-end">
                     <span className="text-[20px] font-bold">Ваша корзина</span>
                     <span className="text-[12px] font-normal text-[#888787]">
-                      {basket?.length} товара
+                      {filterProduct?.length} товара
                     </span>
                   </div>
                   <div className="w-full flex justify-between items-end">
                     <span className="text-[18px] font-normal">
-                      Товары ( {basket?.length} )
+                      Товары ( {filterProduct?.length} )
                     </span>
                     <span className="text-[20px] font-bold">
-                      {basket &&
-                        basket.reduce(
-                          (sum, product) => sum + product?.productId?.price,
+                      {filterProduct &&
+                        filterProduct.reduce(
+                          (sum, filterProduct) =>
+                            sum + filterProduct?.productId?.price,
                           0,
                         )}
                       ₽

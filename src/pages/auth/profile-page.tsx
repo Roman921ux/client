@@ -1,10 +1,11 @@
 import { useAuth } from "@/app/providers/auth-provider";
 import instance from "@/shared/model/api/axios-instance";
+import { queryClient } from "@/shared/model/api/query-client";
 import { Footer } from "@/shared/ui/footer";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { Heart, Minus, Plus, ShoppingBasket, Trash } from "lucide-react";
-import { useState } from "react";
-import { useNavigate } from "react-router";
+import { useMemo, useState } from "react";
+import { NavLink, useNavigate } from "react-router";
 const urlImg =
   "https://images.unsplash.com/photo-1656543802898-41c8c46683a7?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
 
@@ -25,6 +26,25 @@ export function ProfilePage() {
       const response = await instance.get("/product/basket-user/all");
       console.log("basket", response.data);
       return response.data;
+    },
+  });
+
+  const filterProduct = useMemo(() => {
+    return basket?.filter((product) => product?.isPurchased === false);
+  }, [basket]);
+
+  const deleteMutation = useMutation({
+    mutationFn: async (productId) => {
+      const response = await instance.patch(
+        `/product/basket-user/${productId}`,
+        {
+          status: true,
+        },
+      );
+      return response.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["basket"] });
     },
   });
 
@@ -63,11 +83,14 @@ export function ProfilePage() {
           </div>
         </div>
         <div className="mt-[92px]">
-          <span className="text-[30px] font-bold mb-[39px] flex gap-5 items-center">
+          <NavLink
+            to="/basket"
+            className="text-[30px] font-bold mb-[39px] flex gap-5 items-center"
+          >
             Корзина <ShoppingBasket className="w-8 h-8" />
-          </span>
+          </NavLink>
           <div className="grid grid-cols-2 gap-10">
-            {basket?.map((product) => (
+            {filterProduct?.map((product) => (
               <div className="bg-white border flex justify-between items-center rounded-[16px] pl-[36px] pb-[58px] pt-[80px] pr-[63px]">
                 <div className="h-[250px] w-[250px] mr-[53px]">
                   {product?.productId?.photo ? (
@@ -90,7 +113,7 @@ export function ProfilePage() {
                     <div>
                       <Heart className="text-red-500" />
                     </div>
-                    <div>
+                    <div onClick={() => deleteMutation.mutate(product?._id)}>
                       <Trash className="text-red-500" />
                     </div>
                   </div>

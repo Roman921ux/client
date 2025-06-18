@@ -102,6 +102,38 @@ function FormDataF({ imageUrl }: { imageUrl: string | null }) {
     dignity: "",
   });
 
+  // Список стран для выпадающего списка
+  const countries = [
+    { value: "", label: "Выберите страну" },
+    { value: "Россия", label: "Россия" },
+    { value: "США", label: "США" },
+    { value: "Бразилия", label: "Бразилия" },
+    { value: "Германия", label: "Германия" },
+    { value: "Япония", label: "Япония" },
+  ];
+
+  // Список весовых категорий
+  const weightCategories = [
+    { value: "", label: "Выберите весовую категорию" },
+    { value: "Легчайший вес", label: "Легчайший вес (до 57 кг)" },
+    { value: "Легкий вес", label: "Легкий вес (до 70 кг)" },
+    { value: "Полусредний вес", label: "Полусредний вес (до 77 кг)" },
+    { value: "Средний вес", label: "Средний вес (до 84 кг)" },
+    { value: "Полутяжелый вес", label: "Полутяжелый вес (до 93 кг)" },
+    { value: "Тяжелый вес", label: "Тяжелый вес (свыше 93 кг)" },
+  ];
+
+  // Список достижений/уровней бойца
+  const dignityLevels = [
+    { value: "", label: "Выберите уровень" },
+    { value: "Новичок", label: "Новичок" },
+    { value: "Любитель", label: "Любитель" },
+    { value: "Профессионал", label: "Профессионал" },
+    { value: "Чемпион региона", label: "Чемпион региона" },
+    { value: "Чемпион страны", label: "Чемпион страны" },
+    { value: "Международный чемпион", label: "Международный чемпион" },
+  ];
+
   useEffect(() => {
     setFormData((prev) => ({ ...prev, photo: imageUrl }));
   }, [imageUrl]);
@@ -148,16 +180,25 @@ function FormDataF({ imageUrl }: { imageUrl: string | null }) {
             placeholder="Название клуба"
             className="rounded-[0px] border border-black w-full font-bold text-[30px]"
           />
-          <input
+
+          {/* Выбор страны */}
+          <select
             value={formData.country}
             onChange={(e) =>
               setFormData((prev) => ({ ...prev, country: e.target.value }))
             }
             name="country"
-            placeholder="Страна"
             className="rounded-[0px] border border-black w-full font-bold text-[30px]"
-          />
-          <input
+          >
+            {countries.map((country) => (
+              <option key={country.value} value={country.value}>
+                {country.label}
+              </option>
+            ))}
+          </select>
+
+          {/* Выбор весовой категории */}
+          <select
             value={formData.weightCategory}
             onChange={(e) =>
               setFormData((prev) => ({
@@ -166,18 +207,31 @@ function FormDataF({ imageUrl }: { imageUrl: string | null }) {
               }))
             }
             name="weightCategory"
-            placeholder="Весовая категория"
             className="rounded-[0px] border border-black w-full font-bold text-[30px]"
-          />
-          <input
+          >
+            {weightCategories.map((category) => (
+              <option key={category.value} value={category.value}>
+                {category.label}
+              </option>
+            ))}
+          </select>
+
+          {/* Выбор уровня/достижений */}
+          <select
             value={formData.dignity}
             onChange={(e) =>
               setFormData((prev) => ({ ...prev, dignity: e.target.value }))
             }
             name="dignity"
-            placeholder="Награды"
             className="rounded-[0px] border border-black w-full font-bold text-[30px]"
-          />
+          >
+            {dignityLevels.map((level) => (
+              <option key={level.value} value={level.value}>
+                {level.label}
+              </option>
+            ))}
+          </select>
+
           <button>Создать бойца</button>
         </form>
       </div>

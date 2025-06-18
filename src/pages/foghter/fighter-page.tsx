@@ -47,6 +47,9 @@ function FighterCard({ fighter }: { fighter: TDtoFighter }) {
         <span className="text-xl font-normal text-red-500 mt-6">
           {fighter?.dignity}
         </span>
+        <span className="text-xl font-normal mt-6">
+          {fighter?.weightCategory}
+        </span>
         <span className="text-xl font-normal">{fighter?.country}</span>
       </div>
     </div>

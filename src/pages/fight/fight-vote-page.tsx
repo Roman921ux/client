@@ -115,9 +115,7 @@ function FighterCard({
         <span className="text-3xl font-bold">{fighter?.name}</span>
         <span className="text-xl font-normal text-red-500 mt-6">Боец UFC</span>
         <span className="text-xl font-normal"> {fighter?.dignity}</span>
-
-        <span className="text-xl font-normal">{fighter?.weightCategory}</span>
-
+        <span className="text-xl font-normal">{fighter?.country}</span>
         <span className="text-xl font-normal">{fighter?.weightCategory}</span>
       </div>
 
